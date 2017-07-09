@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+    <meta charset="utf-8">
+    <title>Map</title>
+    <script src="resources/jquery-3.2.1.js"></script>
+    <script src="resources/knockout-3.4.2.debug.js"></script>
+    <script src="viewmodel.js"></script>
+    <style>
+        /* Always set the map height explicitly to define the size of the div
+         * element that contains the map. */
+        #map {
+            height: 100%;
+        }
+        /* Optional: Makes the sample page fill the window. */
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+    </style>
+</head>
+<body>
+<div id="map"></div>
+<script src="map.js"></script>
+
+<script async defer
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDHy22VlAkdQAEucYpMXmPak0gGzQ30qKk&libraries=places&callback=initMap">
+</script>
+</body>
+
+<script>
+    ko.applyBindings(myFunctionModel());
+</script>
+</html>

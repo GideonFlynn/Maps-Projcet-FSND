@@ -9,7 +9,7 @@ function myFunctionModel() {
         headers: { 'Api-User-Agent': 'allmynameswastaken@gmail.com' },
         crossDomain: true,
         success: function(data) {
-        
+            // do something with data
             var root_query = data.parse;
             var info_title = root_query.title;
             var info_content = "<h1>This is " + info_title + "</h1>" + root_query.text ;
