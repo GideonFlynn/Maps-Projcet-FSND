@@ -12,11 +12,13 @@ function myFunctionModel() {
         crossDomain: true,
         success: function(data) {
             var formatted_text;
+            var formatted_links;
             var root_query = data.parse;
 
             var info_title = root_query.title;
             formatted_text = root_query.text.replace(/\/\//g, "https://");
-            var info_content = "<h1>This is " + info_title + "</h1>" + formatted_text ;
+            formatted_links = formatted_text.replace(/href="/g, 'href="https://en.wikipedia.org');
+            var info_content = "<h1>This is " + info_title + "</h1>" + formatted_links ;
 
             self.contentString = ko.observable(info_content);
         }
