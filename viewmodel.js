@@ -4,7 +4,7 @@ function myFunctionModel() {
     self.wiki_title = ko.observable("Taj Mahal");
     $.ajax( {
         url: "https://en.wikipedia.org/w/api.php?action=parse&page=Taj_Mahal&utf8=&format=json&formatversion=2&mobileformat=1&noimages=1",
-        dataType: 'json',
+        dataType: 'jsonp',
         type: 'GET',
         headers: { 'Api-User-Agent': 'allmynameswastaken@gmail.com' },
         crossDomain: true,
