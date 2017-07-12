@@ -1,0 +1,25 @@
+{
+  "version": "1.0.0",
+  "name": "Mathias Wøbbe's WikiMaps",
+  "launch_path": "/index.html",
+  "description": "An app utilizing knockout.js, wikimedia and Google Maps API. It shows wikipedia pages on their actual location",
+  "icons": {
+    "128": "/images/touch/icon-128x128.png"
+  },
+  "developer": {
+    "name": "Mathias Wøbbe",
+    "url": ""
+  },
+  "installs_allowed_from": [
+    "*"
+  ],
+  "default_locale": "en",
+  "permissions": {
+  },
+  "locales": {
+    "en": {
+      "name": "Mathias Wøbbe's WikiMap",
+      "description": "An app utilizing knockout.js, wikimedia and Google Maps API. It shows wikipedia pages on their actual location"
+    }
+  }
+}
