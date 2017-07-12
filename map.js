@@ -35,6 +35,7 @@ function initMap() {
             // Make sure the marker property is cleared if the infowindow is closed.
             infowindow.addListener('closeclick', function () {
                 infowindow.marker = null;
+                showMarkers();
             });
             // Request data asynchronously.
             // Parameter one is the search term(en.wikipedia.com/wiki/<SEARCH_TERM>).
