@@ -1,16 +1,14 @@
-function initMap() {
-    map = new google.maps.Map(document.getElementById('map'), {
-        zoom: 5,
-        center: locations[0].location
-    });
+var initMap = function initMap() {
+    map = new google.maps.Map(document.getElementById('map'), {});
+    bounds = new google.maps.LatLngBounds();
 
-    var largeInfowindow = new google.maps.InfoWindow({});
-
-    // Place the markers on the map
+    // Place some markers on the map.
+    // locations are found in viewmodel.js.
     for (var i = 0; i < locations.length; i++) {
-        // Get the position from the location array.
+        // Get the position and title from the location array.
         var position = locations[i].location;
         var title = locations[i].title;
+
         // Create a marker per location, and put into markers array.
         var marker = new google.maps.Marker({
             position: position,
@@ -20,12 +18,16 @@ function initMap() {
         });
         // Push the marker to our array of markers.
         markers.push(marker);
+
         // Create an onclick event to open the large infowindow at each marker.
         marker.addListener('click', function () {
             populateInfoWindow(this, largeInfowindow);
         });
-        // TODO: Two event listeners - one for mouseover, one for mouseout, to change the colors back and forth.
+        // Two event listeners - one for mouseover, one for mouseout, to change the colors back and forth.
     }
+
+    var largeInfowindow = new google.maps.InfoWindow({});
+
     function populateInfoWindow(marker, infowindow) {
         // Check to make sure the infowindow is not already opened on this marker.
         if (infowindow.marker !== marker) {
@@ -35,27 +37,28 @@ function initMap() {
             // Make sure the marker property is cleared if the infowindow is closed.
             infowindow.addListener('closeclick', function () {
                 infowindow.marker = null;
-                showMarkers();
+                // Move the map back to its boundaries,
+                // bounds are defined in showMarkers(), located at the bottom of this file.
+                map.fitBounds(bounds);
             });
-            // Request data asynchronously.
-            // Parameter one is the search term(en.wikipedia.com/wiki/<SEARCH_TERM>).
+            // Request data from Wikipedia asynchronously.
+            // Parameter one is the search term (en.wikipedia.com/wiki/<MY_SEARCH> ).
             // Parameter two is the current infowindow.
-            ajaxcall(marker.title, infowindow);
-            // Open the infowindow on the correct marker.
-            //TODO: Map (or viewport) repositions so the infowindow is completely visible.
-            console.log(marker.position);
-            // Move the map to display 100% of infowindow.
+            wiki_ajax(marker.title, infowindow);
+
+            // Pan map to display the whole infowindow.
             map.panTo(marker.position);
             map.panBy(0, -450);
-            infowindow.open(map, marker);
 
+            // Open the infowindow on the correct marker.
+            infowindow.open(map, marker);
         }
     }
 
-    // Make sure every marker can be seen on load
+    // Make sure every marker can be seen on map.
     function showMarkers() {
-        var bounds = new google.maps.LatLngBounds();
         // Extend the boundaries of the map for each marker and display the marker
+        // The variable bounds can be found at the start of this file.
         for (var i = 0; i < markers.length; i++) {
             markers[i].setMap(map);
             bounds.extend(markers[i].position);
@@ -64,4 +67,8 @@ function initMap() {
     }
 
     showMarkers();
-}
+};
+
+// To avoid JetBrains's WebStorm freaking out about functions not being used
+//noinspection BadExpressionStatementJS
+initMap;
