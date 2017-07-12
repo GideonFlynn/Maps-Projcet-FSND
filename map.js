@@ -4,7 +4,7 @@ function initMap() {
         center: locations[0].location
     });
 
-    var largeInfowindow = new google.maps.InfoWindow();
+    var largeInfowindow = new google.maps.InfoWindow({});
 
     // Place the markers on the map
     for (var i = 0; i < locations.length; i++) {
@@ -44,6 +44,7 @@ function initMap() {
             //TODO: Map (or viewport) repositions so the infowindow is completely visible.
             console.log(marker.position);
             map.panTo(marker.position);
+            map.panBy(0, -450);
             infowindow.open(map, marker);
 
         }

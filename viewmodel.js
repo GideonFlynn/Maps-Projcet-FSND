@@ -25,7 +25,7 @@ function myFunctionModel() {
     self.ajaxcall = function (url, infowindow) {
         console.log(url);
 
-        wiki_URL("https://en.wikipedia.org/w/api.php?action=parse&prop=info%7Ctext&page=" + url + "&utf8=&format=json&formatversion=2");
+        wiki_URL("https://en.wikipedia.org/w/api.php?action=parse&prop=info%7Ctext&page=" + url + "&utf8=&format=json&formatversion=2&mobileformat=1");
 
         $.ajax({
             url: wiki_URL(),
