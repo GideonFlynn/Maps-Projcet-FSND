@@ -44,6 +44,7 @@ function initMap() {
             // Open the infowindow on the correct marker.
             //TODO: Map (or viewport) repositions so the infowindow is completely visible.
             console.log(marker.position);
+            // Move the map to display 100% of infowindow.
             map.panTo(marker.position);
             map.panBy(0, -450);
             infowindow.open(map, marker);
