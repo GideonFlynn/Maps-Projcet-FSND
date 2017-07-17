@@ -63,14 +63,12 @@
   crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/knockout/3.4.2/knockout-min.js"></script>
 <!-- build:js scripts/main.min.js -->
-<script src="scripts/viewmodel.js"></script>
 <script src="scripts/main.js"></script>
+<script src="scripts/viewmodel.js"></script>
 <script src="scripts/map.js"></script>
-<script>
-  ko.applyBindings(wikiViewModel());
-</script>
 <!-- endbuild -->
 
+<!-- Google Maps API: Required for using Maps -->
 <script async defer
         src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDHy22VlAkdQAEucYpMXmPak0gGzQ30qKk&libraries=places&callback=initMap">
 </script>
