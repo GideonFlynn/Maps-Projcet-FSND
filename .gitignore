@@ -1,4 +1,11 @@
 node_modules
 dist/
 .tmp
+ReferenceResources
 app.yaml
+.idea/Maps-Projcet-FSND.iml
+.idea/codeStyleSettings.xml
+.idea/markdown-navigator.xml
+.idea/markdown-navigator/
+.idea/modules.xml
+.idea/workspace.xml
