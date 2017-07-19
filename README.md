@@ -11,26 +11,33 @@ This app is wrapped in Google's Web Starter Kit. The default documents for WSK a
 
 ---
 - A copy of this repository
-- [Node.js](https://nodejs.org), bring up a terminal and type `node --version` - _Make sure you have updated to the latest version._
-- [Gulp](http://gulpjs.com), bring up a terminal and type `gulp --version` - _Make sure you have updated to the latest version._
+- [Node.js](https://nodejs.org), bring up a terminal and type `node --version` - _To mke sure its installed & updated to the latest version._
+- [Gulp](http://gulpjs.com), bring up a terminal and type `gulp --version` - _To make sure its installed & updated to the latest version._
 
 
 # Installing
+The default instructions for WSK are located in the WSK-documents folder.
 
 **While you're in the root of the project:**
 - Open a terminal
-- Make sure Gulp and NodeJS both are updated using `gulp --version && node --version`
-- `$ npm install --global gulp && npm install`
-- That's it! You can now run `gulp serve` and your default browser will open a tab with the app running. 
-- `vagrant up`
-  ###### This might take a while, go grab some water or do some exercises
-  ###### Congratulations! You are now able to access the vagrant folder inside your 'box'
-  ## Running
-  - `vagrant up`
-  - `vagrant ssh`
-    - `cd /vagrant`
+- You need to make sure Gulp and NodeJS both are updated using `gulp --version && node --version`
+- Run `sudo npm install --global gulp && npm install`
+- That's it! You can now run `gulp serve` and your default browser will open a tab with the app running.
+  - Go to http://localhost:3000
   
+--- 
 
+Whenever you make a change and save it, the browser will automatically update.
+You can also access localhost:3000 on other devices while running gulp:serve!
+- If you are unable to watch the webpage on other devices, make sure you are on the same network.
+- If its still not working:
+  - Install a tool like dev-ip with `npm install -g dev-ip`, then run `dev-ip`.
+  - Copy one of the provided IP addresses and go to gulpfile.babel.js and locate the `serve` and `serve:dist` tasks.
+  - Find the host value( host: 'IP-address' ), then change 'IP-address' to the one you've just copied.
+  
+  You can try gulp:serve again and just like that, the app should show on other devices.
+
+If you are curious about how everything works, go read the documents that comes with WSK, in the WSK-documents folder. :)
 
 # API
 Go to the [API docs](https://documenter.getpostman.com/view/2229326/item-catalog/6fSWmNf), they are generated with Postman.
@@ -44,8 +51,10 @@ The API's used are:
 
 # Built with
 - Javascript
-  - KnockoutJS
-- Web starter Kit
+- Node JS
+- KnockoutJS
+- Web Starter Kit
+- Gulp
 - Google Maps
   ### Using
 - Webstorm - Coding
