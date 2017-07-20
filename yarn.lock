@@ -982,7 +982,7 @@ change-case@3.0.x:
     sentence-case "^2.1.0"
     snake-case "^2.1.0"
     swap-case "^1.1.0"
-    wikiTitle-case "^2.1.0"
+    title-case "^2.1.0"
     upper-case "^1.1.1"
     upper-case-first "^1.1.0"
 
@@ -5850,9 +5850,9 @@ timed-out@^3.0.0:
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/timed-out/-/timed-out-3.0.0.tgz#ff88de96030ce960eabd42487db61d3add229273"
 
-wikiTitle-case@^2.1.0:
+title-case@^2.1.0:
   version "2.1.0"
-  resolved "https://registry.yarnpkg.com/wikiTitle-case/-/wikiTitle-case-2.1.0.tgz#c68ccb4232079ded64f94b91b4941ade91391979"
+  resolved "https://registry.yarnpkg.com/title-case/-/title-case-2.1.0.tgz#c68ccb4232079ded64f94b91b4941ade91391979"
   dependencies:
     no-case "^2.2.0"
     upper-case "^1.0.3"
