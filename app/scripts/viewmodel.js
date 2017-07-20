@@ -5,11 +5,14 @@ var bounds;
 var markers = [];
 
 var locations = [
-    {title: 'Taj_Mahal',
+    {wikiTitle: 'Taj_Mahal',
+        title: 'Taj Mahal',
             location: {lat: 27.175015, lng: 78.042155}},
-    {title: 'uluru',
+    {wikiTitle: 'uluru',
+        title: 'Uluru',
             location: {lat: -25.363, lng: 131.044}},
-    {title: 'Christ_the_Redeemer_(statue)',
+    {wikiTitle: 'Christ_the_Redeemer_(statue)',
+        title: 'The Christ the Redeemer statue',
             location: {lat: -22.951944, lng: -43.210556}}
 ];
 

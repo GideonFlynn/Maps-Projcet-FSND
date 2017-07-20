@@ -3,6 +3,7 @@ function initMap() {
   var largeInfowindow;
   var marker;
   var title;
+  var wikiTitle;
   var position;
   map = new google.maps.Map(document.getElementById('map'), {});
   bounds = new google.maps.LatLngBounds();
@@ -10,14 +11,16 @@ function initMap() {
     // Place some markers on the map.
     // locations are found in viewmodel.js.
   for (var i = 0; i < locations.length; i++) {
-        // Get the position and title from the location array.
+        // Get the position and wikiTitle from the location array.
     position = locations[i].location;
     title = locations[i].title;
+    wikiTitle = locations[i].wikiTitle;
 
     // Create a marker per location, and put into markers array.
     marker = new google.maps.Marker({
       position: position,
       title: title,
+      wikiTitle: wikiTitle,
       animation: google.maps.Animation.DROP,
       id: i
     });
@@ -50,7 +53,7 @@ function initMap() {
             // Request data from Wikipedia asynchronously.
             // Parameter one is the search term (en.wikipedia.com/wiki/<MY_SEARCH> ).
             // Parameter two is the current infowindow.
-      wikiAjax(marker.title, infowindow);
+      wikiAjax(marker.wikiTitle, infowindow);
 
             // Pan map to display the whole infowindow.
       map.panTo(marker.position);

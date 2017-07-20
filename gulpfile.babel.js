@@ -112,6 +112,7 @@ gulp.task('scripts', () =>
       //       to be correctly concatenated
       './app/scripts/main.js',
       './app/scripts/viewmodel.js',
+      './app/scripts/search-vm.js',
       './app/scripts/map.js'
       // Other scripts
     ])
