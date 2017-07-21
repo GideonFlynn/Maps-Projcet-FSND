@@ -106,28 +106,29 @@ gulp.task('styles', () => {
 // to enable ES2015 support remove the line `"only": "gulpfile.babel.js",` in the
 // `.babelrc` file.
 gulp.task('scripts', () =>
-    gulp.src([
-      // Note: Since we are not using useref in the scripts build pipeline,
-      //       you need to explicitly list your scripts here in the right order
-      //       to be correctly concatenated
-      './app/scripts/main.js',
-      './app/scripts/viewmodel.js',
-      './app/scripts/search-vm.js',
-      './app/scripts/map.js'
-      // Other scripts
-    ])
-      .pipe($.newer('.tmp/scripts'))
-      .pipe($.sourcemaps.init())
-      .pipe($.babel())
-      .pipe($.sourcemaps.write())
-      .pipe(gulp.dest('.tmp/scripts'))
-      .pipe($.concat('main.min.js'))
-      .pipe($.uglify({preserveComments: 'some'}))
-      // Output files
-      .pipe($.size({title: 'scripts'}))
-      .pipe($.sourcemaps.write('.'))
-      .pipe(gulp.dest('dist/scripts'))
-      .pipe(gulp.dest('.tmp/scripts'))
+  gulp.src([
+    // Note: Since we are not using useref in the scripts build pipeline,
+    //       you need to explicitly list your scripts here in the right order
+    //       to be correctly concatenated
+    './app/scripts/main.js',
+    './app/scripts/webflow.js',
+    './app/scripts/viewmodel.js',
+    './app/scripts/map.js'
+
+    // Other scripts
+  ])
+    .pipe($.newer('.tmp/scripts'))
+    .pipe($.sourcemaps.init())
+    .pipe($.babel())
+    .pipe($.sourcemaps.write())
+    .pipe(gulp.dest('.tmp/scripts'))
+    .pipe($.concat('main.min.js'))
+    .pipe($.uglify({preserveComments: 'some'}))
+    // Output files
+    .pipe($.size({title: 'scripts'}))
+    .pipe($.sourcemaps.write('.'))
+    .pipe(gulp.dest('dist/scripts'))
+    .pipe(gulp.dest('.tmp/scripts'))
 );
 
 // Scan your HTML for assets & optimize them
@@ -222,7 +223,7 @@ gulp.task('pagespeed', cb =>
 // Copy over the scripts that are used in importScripts as part of the generate-service-worker task.
 gulp.task('copy-sw-scripts', () => {
   return gulp.src(['node_modules/sw-toolbox/sw-toolbox.js',
-                    'app/scripts/sw/runtime-caching.js'])
+    'app/scripts/sw/runtime-caching.js'])
     .pipe(gulp.dest('dist/scripts/sw'));
 });
 
