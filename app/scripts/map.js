@@ -1,4 +1,5 @@
 /* eslint-disable no-unused-vars,no-undef,no-unused-expressions,no-loop-func,require-jsdoc,no-negated-condition */
+var mouseout;
 function initMap() {
   var styles = [
     {
@@ -119,8 +120,8 @@ function initMap() {
     // Create an onclick event to open the large infowindow at each marker.
     marker.addListener('click', function() {
       toggleBounce;
-      map.setTilt(45);
       populateInfoWindow(this, largeInfowindow);
+
     });
     // Two event listeners - one for mouseover, one for mouseout, to change the colors back and forth.
     marker.addListener('mouseover', toggleBounce);
@@ -152,7 +153,7 @@ function initMap() {
       map.setZoom(15);
       map.panTo(marker.position);
       map.panBy(0, -450);
-
+      map.setTilt(75);
         // Open the infowindow on the correct marker.
       infowindow.open(map, marker);
     }
