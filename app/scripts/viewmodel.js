@@ -1,9 +1,14 @@
 /* eslint-disable no-unused-vars,no-undef,require-jsdoc */
 // The following variables are exclusively used in map.js
+var largeInfowindow;
 var map;
 var bounds;
+var marker;
 var markers = [];
-
+var searchLocations;
+var title;
+var wikiTitle;
+var position;
 var locations = [
   {
     wikiTitle: 'Taj_Mahal',
@@ -26,13 +31,25 @@ var locations = [
 var formattedImages;
 var formattedLinks;
 var formattedContent;
-var searchLocations;
+
+// Define what data a location has.
+// A template for locations.
+var Place = function(data) {
+  this.title = data.title;
+  this.location = data.position;
+  this.wikiTitle = data.wikiTitle;
+  this.marker = data.marker;
+  this.animation = data.animation;
+};
+
 // This is the main viewmodel,
 // it fetches a wiki-page asynchronously.
 // It also makes sure the links are actual links.
 var MVM;
 MVM = function() {
   var self = this;
+  // Google Maps need this empty array
+  this.locationsList = ko.observableArray([]);
   // wikiURL is used to make a dynamic string.
   // The string is is a parameter from populateInfoWindow(),
   // The url is the current markers title, the function is located in map.js.
@@ -40,6 +57,11 @@ MVM = function() {
   // contentString is the formatted data,
   // it has gone thorough the 'formatted' variables.
   self.contentString = ko.observable();
+
+  // Make each location with the Place template.
+  locations.forEach(function(locationItem) {
+    self.locationsList.push(new Place(locationItem));
+  });
 
   searchLocations = function() {
     // Declare variables
@@ -64,12 +86,27 @@ MVM = function() {
       }
     }
   };
+
+  // Make a listener for the list,
+  self.listListener = function(location) {
+    // Sketchily close the previous InfoWindow object.
+    // This doesn't happen. :(
+    if (largeInfowindow.open() === true) {
+      console.log('largeInfoWindow open, closing it to make new content.');
+      largeInfowindow.close();
+    } else {
+      // Animate the marker.
+      google.maps.event.trigger(location.marker, 'click');
+      // Drop the marker at the location.
+      location.marker.setAnimation(google.maps.Animation.DROP);
+    }
+  };
 };
 
 // Make a GET request to Wikipedia.
 // url is the current markers title.
-self.wikiAjax = function(url, infowindow) {
-  // Generate the url based on the markers title.
+wikiAjax = function(url, infowindow) {
+    // Generate the url based on the markers title.
   MVM.wikiURL = 'https://en.wikipedia.org/w/api.php?action=parse&prop=info%7Ctext&page=' + url + '&utf8=&format=json&formatversion=2&mobileformat=1';
   $.ajax({
     url: MVM.wikiURL,
@@ -77,30 +114,31 @@ self.wikiAjax = function(url, infowindow) {
     type: 'GET',
     headers: {'Api-User-Agent': 'allmynameswastaken@gmail.com'},
     crossDomain: true,
-    // data is a jsonp object with a predictable array, starting with parse.
+      // data is a jsonp object with a predictable array, starting with parse.
     success: function(data) {
-      // The root of the object.
+        // The root of the object.
       var rootQuery = data.parse;
 
-      // Define the title of the wiki-page.
+        // Define the title of the wiki-page.
       var infoTitle = rootQuery.title;
 
-      // Go through the text of the wiki-page and replace all links.
+        // Go through the text of the wiki-page and replace all links.
       formattedImages = rootQuery.text.replace(/\/\//g, 'https://');
 
-      // Go through the text of the wiki-page and replace all image references.
+        // Go through the text of the wiki-page and replace all image references.
       formattedLinks = formattedImages.replace(/href="/g, 'href="https://en.wikipedia.org');
 
-      // Take the formatted strings and display the wiki-page's title and the text.
+        // Take the formatted strings and display the wiki-page's title and the text.
 
       formattedContent = '<h1>This is ' +
-        infoTitle +
-        '</h1>' +
-        formattedLinks;
-      // Assign the formatted strings to contentString()
+          infoTitle +
+          '</h1>' +
+          formattedLinks;
+        // Assign the formatted strings to contentString()
       MVM.contentString = formattedContent;
       infowindow.setContent(MVM.contentString);
     }
   });
 };
-ko.applyBindings(new MVM());
+
+MVM = new MVM();

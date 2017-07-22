@@ -94,7 +94,7 @@
 
               <ul class="w-list-unstyled" id="myUL" data-bind="foreach: locations">
                     <li>
-                        <a href="#" class="header" data-bind="text: title"></a><!--<a href="#" data-bind="text: wikiTitle"></a>-->
+                        <a href="#" data-bind="text: title, click: $root.listListener"></a><!--<a href="#" data-bind="text: wikiTitle"></a>-->
                     </li>
                 </ul>
             </nav>
@@ -113,9 +113,8 @@
 <!-- build:js scripts/main.min.js -->
 <script src="scripts/main.js"></script>
 <script src="scripts/webflow.js"></script>
-<script src="scripts/map.js"></script>
 <script src="scripts/viewmodel.js"></script>
-<script src="scripts/requests.js"></script>
+<script src="scripts/map.js"></script>
 <!-- endbuild -->
 
 <!-- Google Maps API: Required for using Maps -->
