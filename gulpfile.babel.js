@@ -112,8 +112,9 @@ gulp.task('scripts', () =>
     //       to be correctly concatenated
     './app/scripts/main.js',
     './app/scripts/webflow.js',
-    './app/scripts/viewmodel.js',
-    './app/scripts/map.js'
+    './app/scripts/map.js',
+    './app/scripts/require.js',
+    './app/scripts/viewmodel.js'
 
     // Other scripts
   ])
@@ -238,7 +239,7 @@ gulp.task('generate-service-worker', ['copy-sw-scripts'], () => {
 
   return swPrecache.write(filepath, {
     // Used to avoid cache conflicts when serving on localhost.
-    cacheId: pkg.name || 'web-starter-kit',
+    cacheId: pkg.name || 'WikiMaps',
     // sw-toolbox.js needs to be listed first. It sets up methods used in runtime-caching.js.
     importScripts: [
       'scripts/sw/sw-toolbox.js',

@@ -76,4 +76,3 @@ function initMap() {
 
   showMarkers();
 }
-ko.applyBindings(wikiViewModel());
