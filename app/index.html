@@ -48,18 +48,19 @@
     }
 
     #myInput {
+      text-align: center;
       background: no-repeat 10px 12px;
       width: 100%;
       font-size: 16px;
       padding: 12px 20px 12px 40px;
       border: none;
-      margin-bottom: 12px;
     }
 
     #myUL {
       list-style-type: none;
       padding: 0;
       margin: 0;
+
     }
 
     #myUL li a {
@@ -67,10 +68,12 @@
       margin-top: -1px; /* Prevent double borders */
       background-color: #f6f6f6;
       padding: 12px;
+      margin-bottom: 2px;
+      text-align: center;
       text-decoration: none;
       font-size: 18px;
       color: black;
-      display: block
+      display: block;
     }
 
     #myUL li a.header {
@@ -85,15 +88,20 @@
 
 </head>
 <body>
-<div class="sidebar">
+
+<div class="container">
+
+  <div id="map"></div>
+
+  <div class="sidebar">
+    <input type="text" id="myInput" onkeyup="searchLocations()" placeholder="Search for names..">
   <ul class="w-list-unstyled" id="myUL" data-bind="foreach: locations">
     <li>
       <a href="#" data-bind="text: title, click: $root.listListener, event: {mouseover: $root.hoverListener, mouseout: $root.hoverOut}"></a><!--<a href="#" data-bind="text: wikiTitle"></a>-->
     </li>
   </ul>
 </div>
-<div class="container">
-  <div id="map"></div>
+
 </div>
 <script
     src="https://code.jquery.com/jquery-3.2.1.min.js"

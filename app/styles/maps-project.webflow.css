@@ -28,15 +28,18 @@
   position: relative;
 }
 .sidebar {
-  padding-top: 10px;
-  width: 25%;
-  height: 100vh;
-  position: fixed;
-  float: left;
+  overflow: scroll;
+  overflow-x: auto;
+  padding: 0;
+  width: 100vw;
+  min-height: 150px;
+  max-height: 20%;
+  position: relative;
   z-index: 2;
   background-image: -webkit-linear-gradient(45deg,rgba(117, 127, 154, 0.45),rgba(215, 221, 232, 0.68));
   background-image: linear-gradient(45deg,rgba(117, 127, 154, 0.45),rgba(215, 221, 232, 0.68));
 }
+
 .navbar {
     background-color: #d7dde8;
 
