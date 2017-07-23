@@ -29,6 +29,36 @@ var locations = [
     wikiTitle: 'Christ_the_Redeemer_(statue)',
     title: 'The Christ the Redeemer statue',
     location: {lat: -22.951944, lng: -43.210556}
+  },
+  {
+    wikiTitle: 'Great_Pyramid_of_Giza',
+    title: 'Great Pyramid of Giza',
+    location: {lat: 29.979175, lng: 31.134358}
+  },
+  {
+    wikiTitle: 'Great_Wall_of_China',
+    title: 'Great Wall of China',
+    location: {lat: 40.68, lng: 117.23}
+  },
+  {
+    wikiTitle: 'Petra',
+    title: 'Petra',
+    location: {lat: 30.328611, lng: 35.441944}
+  },
+  {
+    wikiTitle: 'Colosseum',
+    title: 'Colosseum',
+    location: {lat: 41.890169, lng: 12.492269}
+  },
+  {
+    wikiTitle: 'Chichen_Itza',
+    title: 'Chichen Itza',
+    location: {lat: 20.683056, lng: -88.568611}
+  },
+  {
+    wikiTitle: 'Machu_Picchu',
+    title: 'Machu Picchu',
+    location: {lat: -13.163333, lng: -72.545556}
   }
 ];
 

@@ -94,7 +94,7 @@
   <div id="map"></div>
 
   <div class="sidebar">
-    <input type="text" id="myInput" onkeyup="searchLocations()" placeholder="Search for names..">
+    <input type="text" id="myInput" onkeyup="searchLocations()" placeholder="Search the wonders of the world">
   <ul class="w-list-unstyled" id="myUL" data-bind="foreach: locations">
     <li>
       <a href="#" data-bind="text: title, click: $root.listListener, event: {mouseover: $root.hoverListener, mouseout: $root.hoverOut}"></a><!--<a href="#" data-bind="text: wikiTitle"></a>-->
