@@ -1,5 +1,4 @@
 /* eslint-disable no-unused-vars,no-undef,no-unused-expressions,no-loop-func,require-jsdoc,no-negated-condition */
-var mouseout;
 function initMap() {
   var styles = [
     {
@@ -87,17 +86,14 @@ function initMap() {
     mapTypeId: 'terrain',
     mapTypeControl: true
   });
-
   bounds = new google.maps.LatLngBounds();
-
-  // Place some markers on the map.
-  // locations are found in viewmodel.js.
+  // Place markers on the map.
   for (var i = 0; i < locations.length; i++) {
-    // Get the position and wikiTitle from the location array.
+    // Get position and wikiTitle from the locations array.
     position = locations[i].location;
     title = locations[i].title;
     wikiTitle = locations[i].wikiTitle;
-    // Create a marker per location, and put into markers array.
+    // Create a marker per location
     marker = new google.maps.Marker({
       position: position,
       title: title,
@@ -105,48 +101,44 @@ function initMap() {
       animation: google.maps.Animation.DROP
     });
 
-    // Push the marker to our array of markers.
+    // Add current marker to the locations array.
     locations[i].marker = marker;
+    // Make them observable by KnockOutJS
     MVM.locationsList()[i].marker = marker;
-    /*
-     clickListener = function() {
-     marker.addListener('listClick', function() {
-     'use strict';
-     populateInfoWindow(this, largeInfowindow);
-     });
-     };
-     */
+    // Add current marker to the marker arrar
     markers.push(marker);
     // Create an onclick event to open the large infowindow at each marker.
     marker.addListener('click', function() {
-      toggleBounce;
       populateInfoWindow(this, largeInfowindow);
-
+      map.panBy(0, 0);
     });
-    // Two event listeners - one for mouseover, one for mouseout, to change the colors back and forth.
+    // Two event listeners - one for mouseover, one for mouseout, to have them bounce or drop.
     marker.addListener('mouseover', toggleBounce);
+    marker.addListener('mouseout', toggleOff);
   }
 
   // Create the infowindow.
-  largeInfowindow = new google.maps.InfoWindow({});
+  largeInfowindow = new google.maps.InfoWindow({
+  });
 
   function populateInfoWindow(marker, infowindow) {
       // Check to make sure the infowindow is not already opened on this marker.
     if (infowindow.marker !== marker) {
-        // Clear the infowindow content to give the API time to load.
+    // Clear the infowindow content to give the API time to load.
       infowindow.setContent('');
       infowindow.marker = marker;
-        // Make sure the marker property is cleared if the infowindow is closed.
+    // Make sure the marker property is cleared if the infowindow is closed.
       infowindow.addListener('closeclick', function() {
         infowindow.marker = null;
         marker.setAnimation(null);
-          // Move the map back to its boundaries,
-          // bounds are defined in showMarkers(), located at the bottom of this file.
+    // Move the map back to its boundaries,
+    // bounds are defined in showMarkers(), located at the bottom of this file.
         map.fitBounds(bounds);
+        map.panBy(-140, 0);
       });
-        // Request data from Wikipedia asynchronously.
-        // Parameter one is the search term (en.wikipedia.com/wiki/<MY_SEARCH> ).
-        // Parameter two is the current infowindow.
+        // Request data asynchronously.
+        // Arg one is the search term (en.wikipedia.com/wiki/<MY_SEARCH> ).
+        // Arg two is the current infowindow.
       wikiAjax(marker.wikiTitle, infowindow);
 
         // Pan map to display the whole infowindow.
@@ -154,30 +146,22 @@ function initMap() {
       map.panTo(marker.position);
       map.panBy(0, -450);
       map.setTilt(75);
-        // Open the infowindow on the correct marker.
+        // Open the infowindow on the current marker.
       infowindow.open(map, marker);
     }
   }
 
-    // Make sure every marker can be seen on map.
+// Display all markers on the map.
   function showMarkers() {
-      // Extend the boundaries of the map for each marker and display the marker
-      // The variable bounds can be found at the start of this file.
+    // Iterate over the markers array
     for (var i = 0; i < markers.length; i++) {
+      // Set marker on the map.
       markers[i].setMap(map);
+      // Extend boundaries to current marker.
       bounds.extend(markers[i].position);
     }
+    // Configure map to match new boundaries.
     map.fitBounds(bounds);
   }
-
   showMarkers();
 }
-// Make a sketchy bounce toggle
-function toggleBounce() {
-  if (this.getAnimation() !== null) {
-    this.setAnimation(null);
-  } else {
-    this.setAnimation(google.maps.Animation.BOUNCE);
-  }
-}
-ko.applyBindings(MVM);

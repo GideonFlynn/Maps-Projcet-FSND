@@ -85,25 +85,15 @@
 
 </head>
 <body>
+<div class="sidebar">
+  <ul class="w-list-unstyled" id="myUL" data-bind="foreach: locations">
+    <li>
+      <a href="#" data-bind="text: title, click: $root.listListener, event: {mouseover: $root.hoverListener, mouseout: $root.hoverOut}"></a><!--<a href="#" data-bind="text: wikiTitle"></a>-->
+    </li>
+  </ul>
+</div>
 <div class="container">
-    <div class="navbar w-nav" data-animation="over-left" data-collapse="medium" data-doc-height="1" data-duration="400"
-         data-easing="ease-out" data-easing2="ease-in" data-no-scroll="1">
-        <div class="menu-container w-container">
-            <nav class="nav-menu w-nav-menu" id="menu" role="navigation">
-              <input type="text" id="myInput" onkeyup="searchLocations()" placeholder="Search for names..">
-
-              <ul class="w-list-unstyled" id="myUL" data-bind="foreach: locations">
-                    <li>
-                        <a href="#" data-bind="text: title, click: $root.listListener"></a><!--<a href="#" data-bind="text: wikiTitle"></a>-->
-                    </li>
-                </ul>
-            </nav>
-            <div class="menu-button w-nav-button">
-                <div class="icon w-icon-nav-menu"></div>
-            </div>
-        </div>
-    </div>
-    <div id="map"></div>
+  <div id="map"></div>
 </div>
 <script
     src="https://code.jquery.com/jquery-3.2.1.min.js"
