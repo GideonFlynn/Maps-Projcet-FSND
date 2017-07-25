@@ -117,6 +117,7 @@ MVM = function() {
   self.searchLocations = function(value) {
     'use strict';
     self.locationsList([]);
+
     for (var i = 0; i < locations.length; i++) {
       // If the lowercase version of the query, match the a marker wikiTitle,
       // make the current locations marker visible.
@@ -127,6 +128,9 @@ MVM = function() {
         self.locationsList.push(locations[i]);
       } else {
         // Make the marker invisible :O
+        if (largeInfowindow.anchor === locations[i].marker) {
+          largeInfowindow.close();
+        }
         locations[i].marker.setVisible(false);
       }
     }
