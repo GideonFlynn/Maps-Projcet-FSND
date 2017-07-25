@@ -48,25 +48,26 @@
 
 </head>
 <body>
+<div class="navbar w-nav" data-animation="over-left" data-collapse="all" data-duration="400">
+  <div class="w-container">
+    <nav class="nav-menu w-nav-menu" role="navigation">
 
+      <button data-bind="click: showMarkers">Show markers!</button><button data-bind="click: hideMarkers">Hide markers!</button><button data-bind="click: zoomOut">Zoom out!</button>
+      <input id="myInput" type="search" data-bind="value: query, valueUpdate: 'afterkeydown'" placeholder="Search wonders">
+      <ul class="w-list-unstyled" id="myUL" data-bind="foreach: locationsList">
+        <li>
+          <a href="#" data-bind="text: title, click: $root.listListener, event: {mouseover: $root.hoverListener, mouseout: $root.hoverOut}"></a><!--<a href="#" data-bind="text: wikiTitle"></a>-->
+        </li>
+      </ul>
+    </nav>
+    <div class="menu-button w-nav-button">
+      <div class="icon w-icon-nav-menu"></div>
+    </div>
+  </div>
+</div>
 <div class="container">
 
-
-
   <div id="map"></div>
-  <div class="menuLitebar">
-    <button data-bind="click: showMarkers">Show markers!</button><button data-bind="click: hideMarkers">Hide markers!</button><button data-bind="click: zoomOut">Zoom out!</button>
-    <input id="myInput" type="search" data-bind="value: query, valueUpdate: 'afterkeydown'" placeholder="Search the wonders of the world">
-  </div>
-
-  <div class="sidebar">
-    <ul class="w-list-unstyled" id="myUL" data-bind="foreach: locationsList">
-    <li>
-      <a href="#" data-bind="text: title, click: $root.listListener, event: {mouseover: $root.hoverListener, mouseout: $root.hoverOut}"></a><!--<a href="#" data-bind="text: wikiTitle"></a>-->
-    </li>
-  </ul>
-</div>
-
 </div>
 <script
     src="https://code.jquery.com/jquery-3.2.1.min.js"

@@ -23,6 +23,7 @@
   content: "\e601";
 }
 .w-icon-nav-menu:before {
+  width: 100%;
   content: "\e602";
 }
 .w-icon-arrow-down:before,
@@ -1514,6 +1515,7 @@ textarea.w-select {
   right: 0;
   width: 100%;
 }
+.w-nav-overlay .icon
 .w-nav-overlay .w--nav-menu-open {
   top: 0;
 }
@@ -1536,6 +1538,8 @@ textarea.w-select {
   top: 0;
 }
 .w-nav-button {
+  border-radius: 100px;
+  width: 0;
   position: relative;
   float: right;
   padding: 18px;
@@ -1550,6 +1554,8 @@ textarea.w-select {
   user-select: none;
 }
 .w-nav-button.w--open {
+  border-radius: 100px;
+  width: 0;
   background-color: #C8C8C8;
   color: white;
 }
