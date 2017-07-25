@@ -107,15 +107,16 @@ function initMap() {
     MVM.locationsList()[i].marker = marker;
     // Add current marker to the marker arrar
     markers.push(marker);
-    // Create an onclick event to open the large infowindow at each marker.
-    marker.addListener('click', function() {
-      populateInfoWindow(this, largeInfowindow);
-      map.panBy(0, 0);
-    });
+    // Create an onclick event to open the infowindow at each marker.
+    marker.addListener('click', openInfoWindow);
     // Two event listeners - one for mouseover, one for mouseout, to have them
     // bounce or drop.
     marker.addListener('mouseover', toggleBounce);
     marker.addListener('mouseout', toggleOff);
+  }
+  function openInfoWindow() {
+    'use strict';
+    populateInfoWindow(this, largeInfowindow);
   }
 
   // Create the infowindow.
