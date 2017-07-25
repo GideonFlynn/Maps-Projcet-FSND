@@ -54,7 +54,6 @@ The API's used are:
 - Google Maps
   ### Using
 - Webstorm - Coding
-- Postman - APIs
 - Webflow - Looks
 
 # Contribution
