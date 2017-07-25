@@ -1,86 +1,5 @@
-/* eslint-disable no-unused-vars,no-undef,no-unused-expressions,no-loop-func,require-jsdoc,no-negated-condition */
+/* eslint-disable no-unused-vars,no-undef, require-jsdoc */
 function initMap() {
-  var styles = [
-    {
-      featureType: 'administrative',
-      stylers: [
-        {
-          visibility: 'on'
-        }
-      ]
-    },
-    {
-      featureType: 'administrative',
-      elementType: 'labels',
-      stylers: [
-        {
-          visibility: 'simplified'
-        }
-      ]
-    },
-    {
-      featureType: 'landscape',
-      stylers: [
-        {
-          color: '#4CAF50'
-        }
-      ]
-    },
-    {
-      featureType: 'poi.park',
-      elementType: 'geometry',
-      stylers: [
-        {
-          color: '#43A047'
-        },
-        {
-          visibility: 'on'
-        }
-      ]
-    },
-    {
-      featureType: 'poi.park',
-      elementType: 'labels.text.fill',
-      stylers: [
-        {
-          color: '#414141'
-        }
-      ]
-    },
-    {
-      featureType: 'poi.park',
-      elementType: 'labels.text.stroke',
-      stylers: [
-        {
-          color: '#ffffff'
-        }
-      ]
-    },
-    {
-      featureType: 'road',
-      stylers: [
-        {
-          visibility: 'off'
-        }
-      ]
-    },
-    {
-      featureType: 'transit',
-      stylers: [
-        {
-          visibility: 'off'
-        }
-      ]
-    },
-    {
-      featureType: 'water',
-      stylers: [
-        {
-          color: '#2196F3'
-        }
-      ]
-    }
-  ];
   map = new google.maps.Map(document.getElementById('map'), {
     mapTypeId: 'satellite',
     styles: styles,
@@ -117,41 +36,11 @@ function initMap() {
   }
   function openInfoWindow() {
     'use strict';
-    populateInfoWindow(this, largeInfowindow);
+    MVM.populateInfoWindow(this, largeInfowindow);
   }
 
   // Create the infowindow.
   largeInfowindow = new google.maps.InfoWindow({});
-
-  function populateInfoWindow(marker, infowindow) {
-    // Check to make sure the infowindow is not already opened on this marker.
-    if (infowindow.marker !== marker) {
-      // Clear the infowindow content to give the API time to load.
-      infowindow.setContent('');
-      infowindow.marker = marker;
-      // Make sure the marker property is cleared if the infowindow is closed.
-      infowindow.addListener('closeclick', function() {
-        infowindow.marker = null;
-        marker.setAnimation(null);
-        // Move the map back to its boundaries,
-        // bounds are defined in showMarkers(), located at the bottom of this
-        // file.
-        map.panBy(0, 0);
-      });
-      // Request data asynchronously.
-      // Arg one is the search term (en.wikipedia.com/wiki/<MY_SEARCH> ).
-      // Arg two is the current infowindow.
-      wikiAjax(marker.wikiTitle, infowindow);
-
-      // Pan map to display the whole infowindow.
-      map.setZoom(15);
-      map.panTo(marker.position);
-      map.panBy(0, -450);
-      // Open the infowindow on the current marker.
-      infowindow.open(map, marker);
-      map.setTilt(75);
-    }
-  }
 
   showMarkers();
   map.fitBounds(bounds);

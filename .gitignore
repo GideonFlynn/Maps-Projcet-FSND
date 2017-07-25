@@ -1,7 +1,5 @@
 node_modules
 .tmp
-ReferenceResources
-app.yaml
 .idea/Maps-Projcet-FSND.iml
 .idea/codeStyleSettings.xml
 .idea/markdown-navigator.xml
