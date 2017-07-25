@@ -98,14 +98,15 @@ function initMap() {
       position: position,
       title: title,
       wikiTitle: wikiTitle,
-      animation: google.maps.Animation.DROP
+      animation: google.maps.Animation.DROP,
+      visible: true
     });
 
     // Add current marker to the locations array.
     locations[i].marker = marker;
     // Make them observable by KnockOutJS
     MVM.locationsList()[i].marker = marker;
-    // Add current marker to the marker arrar
+    // Add current marker to the marker array
     markers.push(marker);
     // Create an onclick event to open the infowindow at each marker.
     marker.addListener('click', openInfoWindow);

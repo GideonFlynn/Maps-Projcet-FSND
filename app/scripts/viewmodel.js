@@ -18,19 +18,19 @@ var wikiTitle;
 var position;
 var locations = [
   {
-    wikiTitle: 'Taj_Mahal',
-    title: 'Taj Mahal',
-    location: {lat: 27.175015, lng: 78.042155}
-  },
-  {
-    wikiTitle: 'Uluru',
-    title: 'Uluru',
-    location: {lat: -25.363, lng: 131.044}
+    wikiTitle: 'Chichen_Itza',
+    title: 'Chichen Itza',
+    location: {lat: 20.683056, lng: -88.568611}
   },
   {
     wikiTitle: 'Christ_the_Redeemer_(statue)',
     title: 'Christ the Redeemer statue',
     location: {lat: -22.951944, lng: -43.210556}
+  },
+  {
+    wikiTitle: 'Colosseum',
+    title: 'Colosseum',
+    location: {lat: 41.890169, lng: 12.492269}
   },
   {
     wikiTitle: 'Great_Pyramid_of_Giza',
@@ -43,24 +43,24 @@ var locations = [
     location: {lat: 40.68, lng: 117.23}
   },
   {
+    wikiTitle: 'Machu_Picchu',
+    title: 'Machu Picchu',
+    location: {lat: -13.163333, lng: -72.545556}
+  },
+  {
     wikiTitle: 'Petra',
     title: 'Petra',
     location: {lat: 30.328611, lng: 35.441944}
   },
   {
-    wikiTitle: 'Colosseum',
-    title: 'Colosseum',
-    location: {lat: 41.890169, lng: 12.492269}
+    wikiTitle: 'Taj_Mahal',
+    title: 'Taj Mahal',
+    location: {lat: 27.175015, lng: 78.042155}
   },
   {
-    wikiTitle: 'Chichen_Itza',
-    title: 'Chichen Itza',
-    location: {lat: 20.683056, lng: -88.568611}
-  },
-  {
-    wikiTitle: 'Machu_Picchu',
-    title: 'Machu Picchu',
-    location: {lat: -13.163333, lng: -72.545556}
+    wikiTitle: 'Uluru',
+    title: 'Uluru',
+    location: {lat: -25.363, lng: 131.044}
   }
 ];
 
@@ -95,10 +95,14 @@ MVM = function() {
   var self = this;
   // Google Maps need this array.
   this.locationsList = ko.observableArray([]);
+
+  var makeLocation = function() {
   // Make each location with the Place template.
-  locations.forEach(function(location) {
-    self.locationsList.push(new Place(location));
-  });
+    locations.forEach(function(location) {
+      self.locationsList.push(new Place(location));
+    });
+  };
+  makeLocation();
   // This string is used for ajax calls,
   // It holds the current markers wikiTitle.
   self.wikiURL = ko.observable();
@@ -107,33 +111,28 @@ MVM = function() {
   // it will go through the regexp variables.
   self.contentString = ko.observable('');
 
-  searchLocations = function() {
+  // Used to keep track of the search query.
+  self.query = ko.observable('');
+
+  self.searchLocations = function(value) {
     'use strict';
-    // Declare variables
-    var input;
-    var filter;
-    var ul;
-    var li;
-    var liUrl;
-    var a;
-    var i;
-    input = document.getElementById('myInput');
-    filter = input.value.toUpperCase();
-    ul = document.getElementById('myUL');
-    li = ul.getElementsByTagName('li');
-
-    for (i = 0; i < li.length; i++) {
-      a = li[i].getElementsByTagName('a')[0];
-      if (a.innerHTML.toUpperCase().indexOf(filter) > -1) {
-        li[i].style.display = '';
-
-        var aRegExp = a.innerHTML.replace(searchRegExp, '_');
-        liUrl = aRegExp.replace(christRegExp, '($&)');
+    self.locationsList([]);
+    for (var i = 0; i < locations.length; i++) {
+      // If the lowercase version of the query, match the a marker wikiTitle,
+      // make the current locations marker visible.
+      if (locations[i].wikiTitle
+        .toLowerCase()
+        .indexOf(value.toLowerCase()) >= 0) {
+        locations[i].marker.setVisible(true);
+        self.locationsList.push(locations[i]);
       } else {
-        li[i].style.display = 'none';
+        // Make the marker invisible :O
+        locations[i].marker.setVisible(false);
       }
     }
   };
+  // Subscribe the query to the filter function.
+  self.query.subscribe(self.searchLocations);
 
   /*
    *----- LISTENERS -----
@@ -154,12 +153,12 @@ MVM = function() {
     // Cancel the animation.
     location.marker.setAnimation(null);
   };
-  document.getElementById('myShowBtn').addEventListener('click', showMarkers);
-  document.getElementById('myHideBtn').addEventListener('click', hideMarkers);
-  document.getElementById('myZoomBtn').addEventListener('click', zoomOut);
+  self.showMarkers = showMarkers;
+  self.hideMarkers = hideMarkers;
+  self.zoomOut = zoomOut;
 };
 
-// Make a ajax request to Wikipedia.
+// Make an ajax request to Wikipedia.
 wikiAjax = function(url, infowindow) {
   // Generate a url based on the markers wikiTitle.
   MVM.wikiURL = 'https://en.wikipedia.org/w/api.php?action=parse&prop=info%7Ctext&page=' +
@@ -192,26 +191,9 @@ wikiAjax = function(url, infowindow) {
     },
     // data is a jsonp object with a predictable array, starting with parse.
     success: function(data) {
-      // Check if the response contains an error.
       console.log(data);
-      if (data.error) {
-        // If an error is present, warn the user.
-        infowindow.setContent(
-          '<h2>The request contains an error.</h2>' +
-          '<h3>' +
-          'Error info: ' +
-          data.error.info +
-          '<br>' +
-          'Error code: ' +
-          data.error.code +
-          '<br>' +
-          '</h3>' +
-          '<h5>' +
-          'Try again & make sure the URL is correct. ' +
-          'It should match a "en.wikipedia.com" url.</h5>' +
-          data.error.docref
-        );
-      } else {
+      // Check if the response contains an error.
+      if (!data.error) {
         // The root of the object.
         var rootQuery = data.parse;
         // Content og the object
@@ -240,9 +222,31 @@ wikiAjax = function(url, infowindow) {
         } else {
           infowindow.setContent(MVM.contentString);
         }
+      } else {
+        // If an error is present, warn the user.
+        checkRequest(data, infowindow);
       }
     }
   });
+};
+
+checkRequest = function(data, infowindow) {
+  'use strict';
+  infowindow.setContent(
+    '<h2>The request contains an error.</h2>' +
+    '<h3>' +
+    'Error info: ' +
+    data.error.info +
+    '<br>' +
+    'Error code: ' +
+    data.error.code +
+    '<br>' +
+    '</h3>' +
+    '<h5>' +
+    'Try again & make sure the URL is correct. ' +
+    'It should match a "en.wikipedia.com" url.</h5>' +
+    data.error.docref
+  );
 };
 
 /*

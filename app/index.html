@@ -55,12 +55,12 @@
 
   <div id="map"></div>
   <div class="menuLitebar">
-    <button id="myShowBtn">Show markers!</button><button id="myHideBtn">Hide markers!</button><button id="myZoomBtn">Zoom out!</button>
-    <input type="text" id="myInput" onkeyup="searchLocations()" placeholder="Search the wonders of the world">
+    <button data-bind="click: showMarkers">Show markers!</button><button data-bind="click: hideMarkers">Hide markers!</button><button data-bind="click: zoomOut">Zoom out!</button>
+    <input id="myInput" type="search" data-bind="value: query, valueUpdate: 'afterkeydown'" placeholder="Search the wonders of the world">
   </div>
 
   <div class="sidebar">
-  <ul class="w-list-unstyled" id="myUL" data-bind="foreach: locations">
+    <ul class="w-list-unstyled" id="myUL" data-bind="foreach: locationsList">
     <li>
       <a href="#" data-bind="text: title, click: $root.listListener, event: {mouseover: $root.hoverListener, mouseout: $root.hoverOut}"></a><!--<a href="#" data-bind="text: wikiTitle"></a>-->
     </li>
