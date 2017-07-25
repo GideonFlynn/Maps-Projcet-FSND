@@ -112,7 +112,6 @@ gulp.task('scripts', () =>
     //       to be correctly concatenated
     './app/scripts/main.js',
     './app/scripts/webflow.js',
-    '.app/scripts/variables.js',
     './app/scripts/viewmodel.js',
     './app/scripts/map.js'
 
