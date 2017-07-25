@@ -40,10 +40,6 @@ You can also access localhost:3000 on other devices while running gulp:serve!
 If you are curious about how everything works, go read the documents that comes with WSK, in the WSK-documents folder. :)
 
 # API
-Go to the [API docs](https://documenter.getpostman.com/view/2229326/item-catalog/6fSWmNf), they are generated with Postman.
-
-An alternative is downloading [the Postman app](https://www.getpostman.com/) and pressing this button:
-[![Run in Postman](https://run.pstmn.io/button.svg)](https://app.getpostman.com/run-collection/4263598c8bd1b5ce049e)
 
 The API's used are:
 - Google Maps
