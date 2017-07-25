@@ -43,47 +43,7 @@
     <link rel="stylesheet" href="styles/webflow.css">
     <link rel="stylesheet" href="styles/maps-project.webflow.css">
   <style>
-    * {
-      box-sizing: border-box;
-    }
 
-    #myInput {
-      text-align: center;
-      background: no-repeat 10px 12px;
-      width: 100%;
-      font-size: 16px;
-      padding: 12px 20px 12px 40px;
-      border: none;
-    }
-
-    #myUL {
-      list-style-type: none;
-      padding: 0;
-      margin: 0;
-
-    }
-
-    #myUL li a {
-      border: 1px solid #ddd;
-      margin-top: -1px; /* Prevent double borders */
-      background-color: #f6f6f6;
-      padding: 12px;
-      margin-bottom: 2px;
-      text-align: center;
-      text-decoration: none;
-      font-size: 18px;
-      color: black;
-      display: block;
-    }
-
-    #myUL li a.header {
-      background-color: #e2e2e2;
-      cursor: default;
-    }
-
-    #myUL li a:hover:not(.header) {
-      background-color: #eee;
-    }
   </style>
 
 </head>
@@ -91,10 +51,15 @@
 
 <div class="container">
 
+
+
   <div id="map"></div>
+  <div class="menuLitebar">
+    <button id="myShowBtn">Show markers!</button><button id="myHideBtn">Hide markers!</button><button id="myZoomBtn">Zoom out!</button>
+    <input type="text" id="myInput" onkeyup="searchLocations()" placeholder="Search the wonders of the world">
+  </div>
 
   <div class="sidebar">
-    <input type="text" id="myInput" onkeyup="searchLocations()" placeholder="Search the wonders of the world">
   <ul class="w-list-unstyled" id="myUL" data-bind="foreach: locations">
     <li>
       <a href="#" data-bind="text: title, click: $root.listListener, event: {mouseover: $root.hoverListener, mouseout: $root.hoverOut}"></a><!--<a href="#" data-bind="text: wikiTitle"></a>-->

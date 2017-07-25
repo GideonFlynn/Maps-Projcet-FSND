@@ -22,7 +22,7 @@ function initMap() {
       featureType: 'landscape',
       stylers: [
         {
-          color: '#adadad'
+          color: '#4CAF50'
         }
       ]
     },
@@ -31,7 +31,7 @@ function initMap() {
       elementType: 'geometry',
       stylers: [
         {
-          color: '#6c6c6c'
+          color: '#43A047'
         },
         {
           visibility: 'on'
@@ -76,14 +76,14 @@ function initMap() {
       featureType: 'water',
       stylers: [
         {
-          color: '#2186d8'
+          color: '#2196F3'
         }
       ]
     }
   ];
   map = new google.maps.Map(document.getElementById('map'), {
+    mapTypeId: 'satellite',
     styles: styles,
-    mapTypeId: 'terrain',
     mapTypeControl: true
   });
   bounds = new google.maps.LatLngBounds();
@@ -112,56 +112,49 @@ function initMap() {
       populateInfoWindow(this, largeInfowindow);
       map.panBy(0, 0);
     });
-    // Two event listeners - one for mouseover, one for mouseout, to have them bounce or drop.
+    // Two event listeners - one for mouseover, one for mouseout, to have them
+    // bounce or drop.
     marker.addListener('mouseover', toggleBounce);
     marker.addListener('mouseout', toggleOff);
   }
 
   // Create the infowindow.
-  largeInfowindow = new google.maps.InfoWindow({
-  });
+  largeInfowindow = new google.maps.InfoWindow({});
 
   function populateInfoWindow(marker, infowindow) {
-      // Check to make sure the infowindow is not already opened on this marker.
+    // Check to make sure the infowindow is not already opened on this marker.
     if (infowindow.marker !== marker) {
-    // Clear the infowindow content to give the API time to load.
+      // Clear the infowindow content to give the API time to load.
       infowindow.setContent('');
       infowindow.marker = marker;
-    // Make sure the marker property is cleared if the infowindow is closed.
+      // Make sure the marker property is cleared if the infowindow is closed.
       infowindow.addListener('closeclick', function() {
         infowindow.marker = null;
         marker.setAnimation(null);
-    // Move the map back to its boundaries,
-    // bounds are defined in showMarkers(), located at the bottom of this file.
-        map.fitBounds(bounds);
-        map.panBy(-140, 0);
+        // Move the map back to its boundaries,
+        // bounds are defined in showMarkers(), located at the bottom of this
+        // file.
+        map.panBy(0, 0);
       });
-        // Request data asynchronously.
-        // Arg one is the search term (en.wikipedia.com/wiki/<MY_SEARCH> ).
-        // Arg two is the current infowindow.
+      // Request data asynchronously.
+      // Arg one is the search term (en.wikipedia.com/wiki/<MY_SEARCH> ).
+      // Arg two is the current infowindow.
       wikiAjax(marker.wikiTitle, infowindow);
 
-        // Pan map to display the whole infowindow.
+      // Pan map to display the whole infowindow.
       map.setZoom(15);
       map.panTo(marker.position);
       map.panBy(0, -450);
-      map.setTilt(75);
-        // Open the infowindow on the current marker.
+      // Open the infowindow on the current marker.
       infowindow.open(map, marker);
+      map.setTilt(75);
     }
   }
 
-// Display all markers on the map.
-  function showMarkers() {
-    // Iterate over the markers array
-    for (var i = 0; i < markers.length; i++) {
-      // Set marker on the map.
-      markers[i].setMap(map);
-      // Extend boundaries to current marker.
-      bounds.extend(markers[i].position);
-    }
-    // Configure map to match new boundaries.
-    map.fitBounds(bounds);
-  }
   showMarkers();
+  map.fitBounds(bounds);
 }
+
+MVM = new MVM();
+ko.applyBindings(MVM);
+
