@@ -1,85 +1,4 @@
-/* eslint-disable no-unused-vars,no-undef, require-jsdoc */
-var styles = [
-  {
-    featureType: 'administrative',
-    stylers: [
-      {
-        visibility: 'on'
-      }
-    ]
-  },
-  {
-    featureType: 'administrative',
-    elementType: 'labels',
-    stylers: [
-      {
-        visibility: 'simplified'
-      }
-    ]
-  },
-  {
-    featureType: 'landscape',
-    stylers: [
-      {
-        color: '#4CAF50'
-      }
-    ]
-  },
-  {
-    featureType: 'poi.park',
-    elementType: 'geometry',
-    stylers: [
-      {
-        color: '#43A047'
-      },
-      {
-        visibility: 'on'
-      }
-    ]
-  },
-  {
-    featureType: 'poi.park',
-    elementType: 'labels.text.fill',
-    stylers: [
-      {
-        color: '#414141'
-      }
-    ]
-  },
-  {
-    featureType: 'poi.park',
-    elementType: 'labels.text.stroke',
-    stylers: [
-      {
-        color: '#ffffff'
-      }
-    ]
-  },
-  {
-    featureType: 'road',
-    stylers: [
-      {
-        visibility: 'off'
-      }
-    ]
-  },
-  {
-    featureType: 'transit',
-    stylers: [
-      {
-        visibility: 'off'
-      }
-    ]
-  },
-  {
-    featureType: 'water',
-    stylers: [
-      {
-        color: '#2196F3'
-      }
-    ]
-  }
-];
+/* eslint-disable no-unused-vars,no-undef, require-jsdoc, no-alert */
 function initMap() {
   map = new google.maps.Map(document.getElementById('map'), {
     mapTypeId: 'satellite',
@@ -117,15 +36,30 @@ function initMap() {
   }
   function openInfoWindow() {
     'use strict';
+    this.setAnimation(google.maps.Animation.DROP);
     MVM.populateInfoWindow(this, largeInfowindow);
   }
 
   // Create the infowindow.
   largeInfowindow = new google.maps.InfoWindow({});
+  // Fit bounds if there has been a resize.
+  google.maps.event.addDomListener(window, 'resize', function() {
+    // `bounds` is a `LatLngBounds` object
+    largeInfowindow.close();
+    map.fitBounds(bounds);
+  });
 
-  showMarkers();
   map.fitBounds(bounds);
+  showMarkers();
 }
+// If the maps API doesn't load properly
+mapError = function() {
+  // Error handling
+  alert('Google Maps API did not load correctly. Please try to refresh and' +
+    ' make sure the URL is correct.');
+  console.log('Google Maps API did not load correctly.' +
+              ' Please try to refresh and make sure the URL is correct.');
+};
 
 MVM = new MVM();
 ko.applyBindings(MVM);

@@ -113,6 +113,7 @@ gulp.task('scripts', () =>
     './app/scripts/main.js',
     './app/scripts/webflow.js',
     './app/scripts/viewmodel.js',
+    './app/scripts/styles.js',
     './app/scripts/map.js'
 
     // Other scripts

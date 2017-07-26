@@ -193,7 +193,7 @@ MVM = function() {
 // Make an ajax request to Wikipedia.
 wikiAjax = function(url, infowindow) {
   // Generate a url based on the markers wikiTitle.
-  MVM.wikiURL = 'https://en.wikipedia.org/w/api.php?action=parse&prop=info%7Ctext&page=' +
+  MVM.wikiURL = 'https://en.wikipedia.org/w/api.php?action=prase&prop=info%7Ctext&page=' +
                  url +
                 '&utf8=&format=json&formatversion=2&mobileformat=1';
 
@@ -204,10 +204,7 @@ wikiAjax = function(url, infowindow) {
     headers: {'Api-User-Agent': 'allmynameswastaken@gmail.com'},
     crossDomain: true,
     error: function(jqXHR, textStatus, errorThrown) {
-      alert('An error occurred... Look at the console ' +
-        '(F12 or Ctrl+Shift+I, Console tab)' +
-        ' for more information!');
-      $('#result').html(
+      infowindow.setContent(
         '<p>status code: ' +
         jqXHR.status +
         '</p><p>errorThrown: ' +
