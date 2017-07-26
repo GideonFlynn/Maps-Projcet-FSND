@@ -45,8 +45,7 @@ function initMap() {
   // Fit bounds if there has been a resize.
   google.maps.event.addDomListener(window, 'resize', function() {
     // `bounds` is a `LatLngBounds` object
-    largeInfowindow.close();
-    map.fitBounds(bounds);
+    zoomOut();
   });
 
   map.fitBounds(bounds);

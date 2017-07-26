@@ -187,13 +187,14 @@ MVM = function() {
   // Bind button click events to functions
   self.showMarkers = showMarkers;
   self.hideMarkers = hideMarkers;
+  self.showInfoWindow = showInfoWindow;
   self.zoomOut = zoomOut;
 };
 
 // Make an ajax request to Wikipedia.
 wikiAjax = function(url, infowindow) {
   // Generate a url based on the markers wikiTitle.
-  MVM.wikiURL = 'https://en.wikipedia.org/w/api.php?action=prase&prop=info%7Ctext&page=' +
+  MVM.wikiURL = 'https://en.wikipedia.org/w/api.php?action=parse&prop=info%7Ctext&page=' +
                  url +
                 '&utf8=&format=json&formatversion=2&mobileformat=1';
 
@@ -318,9 +319,16 @@ function showMarkers() {
     bounds.extend(markers[i].position);
   }
 }
+// Make map display current boundaries.
 function zoomOut() {
   'use strict';
   map.fitBounds(bounds);
+  largeInfowindow.close();
+}
+function showInfoWindow() {
+  'use strict';
+  map.fitBounds(bounds);
+  largeInfowindow.setMap(map);
 }
 // Hide all markers on the map.
 function hideMarkers() {
