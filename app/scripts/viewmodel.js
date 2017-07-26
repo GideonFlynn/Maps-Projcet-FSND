@@ -206,7 +206,7 @@ wikiAjax = function(url, infowindow) {
     crossDomain: true,
     error: function(jqXHR, textStatus, errorThrown) {
       infowindow.setContent(
-        '<p>An error has occured.</p>'
+        '<p>An error has occurred.</p>'
       );
       console.log('jqXHR:');
       console.log(jqXHR);
