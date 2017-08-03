@@ -3,28 +3,105 @@
 /*
  *----- LOCAL VARIABLES -----*
  */
-var MVM;
-var title;
-var wikiTitle;
-var position;
+let MVM;
+let title;
+let wikiTitle;
+let position;
 
 /*
  *----- REGULAR EXPRESSIONS -----*
  * RegExp to make sure links redirect properly
  * Note: The coordinates link is getting messed up. (nothing breaks though)
  */
-var imageRegExp = /\/\//g;
-var linkRegExp = /href="/g;
+const imageRegExp = /\/\//g;
+const linkRegExp = /href="/g;
+
+/*
+ *------ AJAX CALLS ------*
+ */
+// Populates the infowindow with error data.
+// The error data is provided by Wikimedia.
+const checkRequest = (data, infowindow) => {
+  infowindow.setContent(
+    `<h2>The request contains an error.</h2>
+     <h3>Error info: ${data.error.info}
+     <br>
+     Error code: ${data.error.code}
+     <br></h3>
+     <h5>Try again & make sure the URL is correct.
+      It should match a "en.wikipedia.com" url.</h5>${data.error.docref}`
+  );
+};
+// Make an ajax request to Wikipedia.
+var wikiAjax = (url, infowindow) => {
+  // Generate a url based on the markers wikiTitle.
+  MVM.wikiURL = `https://en.wikipedia.org/w/api.php?action=parse&prop=info%7Ctext&page=${url}&utf8=&format=json&formatversion=2&mobileformat=1`;
+
+  $.ajax({
+    url: MVM.wikiURL,
+    dataType: 'jsonp',
+    type: 'GET',
+    headers: {'Api-User-Agent': 'allmynameswastaken@gmail.com'},
+    crossDomain: true,
+    error(jqXHR, textStatus, errorThrown) {
+      infowindow.setContent(
+        '<p>An error has occurred.</p>'
+      );
+      console.log('jqXHR:');
+      console.log(jqXHR);
+      console.log('textStatus:', textStatus);
+      console.log('errorThrown:', errorThrown);
+    },
+    success(data) {
+      // data is a jsonp object with a predictable array, starting with parse.
+      console.log(data.parse);
+      // Check if the response contains an error.
+      if (!data.error) {
+        // Declare the root of the object.
+        const rootQuery = data.parse;
+        // Declare the main content of the request
+        const rootContent = rootQuery.text;
+        // Define the title of the wikipedia page.
+        const infoTitle = rootQuery.title;
+
+        // Go through the wikipedia page and replace all image links.
+        const imgFormat = rootContent.replace(imageRegExp, 'https://');
+        // Go through the wikipedia page and replace all links.
+        let formattedContent = imgFormat.replace(linkRegExp, 'href="https://en.wikipedia.org');
+
+        // Take the formatted content
+        formattedContent = `<h1>This is ${infoTitle}</h1>${formattedContent}`;
+        // Assign it to the content observable.
+        MVM.contentString = formattedContent;
+
+        // If nothing is present, warn the user inside the current infowindow.
+        if (MVM.contentString === '') {
+          infowindow.setContent(
+            '<h3>An error occurred, ' +
+            'try again & make sure the URL is correct.' +
+            ' The URL should match a "en.wikipedia.com" url.</h3>'
+          );
+        } else {
+          // Populate the infowindow with the formatted content.
+          infowindow.setContent(MVM.contentString);
+        }
+      } else {
+        // If an error is present, warn the user inside the current infowindow.
+        checkRequest(data, infowindow);
+      }
+    }
+  });
+};
 
 /*
  *----- MAP VARIABLES -----*
  */
-var largeInfowindow;
-var map;
-var bounds;
-var marker;
-var markers = [];
-var locations = [
+let largeInfowindow;
+let map;
+let bounds;
+let marker;
+const markers = [];
+const locations = [
   {
     wikiTitle: 'Chichen_Itza',
     title: 'Chichen Itza',
@@ -72,7 +149,7 @@ var locations = [
   }
 ];
 
-var Place = function(data) {
+const Place = function(data) {
   this.title = data.title;
   this.location = data.position;
   this.wikiTitle = data.wikiTitle;
@@ -88,14 +165,13 @@ var Place = function(data) {
  */
 
 MVM = function() {
-  'use strict';
-  var self = this;
+  const self = this;
   // Google Maps need this array.
   this.locationsList = ko.observableArray([]);
 
-  var makeLocation = function() {
-  // Make each location based on the Place template.
-    locations.forEach(function(location) {
+  const makeLocation = () => {
+    // Make each location based on the Place template.
+    locations.forEach(location => {
       self.locationsList.push(new Place(location));
     });
   };
@@ -111,20 +187,18 @@ MVM = function() {
 
   // Used to keep track of the search query.
   self.query = ko.observable('');
-  self.searchLocations = function(value) {
-    'use strict';
+  self.searchLocations = value => {
     self.locationsList([]);
 
-    for (var i = 0; i < locations.length; i++) {
-     // If the lowercase version of the  search query, match a marker wikiTitle,
-    // make the current location's marker visible.
-      if (locations[i].wikiTitle.toLowerCase()
-                                .indexOf(value.toLowerCase()) >= 0) {
+    for (let i = 0; i < locations.length; i++) {
+      // If the lowercase version of the  search query, match a marker wikiTitle,
+      // make the current location's marker visible.
+      if (locations[i].wikiTitle.toLowerCase().includes(value.toLowerCase())) {
         locations[i].marker.setVisible(true);
         self.locationsList.push(locations[i]);
       } else {
         if (largeInfowindow.anchor === locations[i].marker) {
-         // Close the infowindow if there's a match
+          // Close the infowindow if there's a match
           largeInfowindow.close();
         }
         // Otherwise, make the marker invisible(:O)
@@ -136,14 +210,14 @@ MVM = function() {
   // Subscribe the query to the filter function.
   self.query.subscribe(self.searchLocations);
   // Define how an infowindow gets populated.
-  self.populateInfoWindow = function(marker, infowindow) {
+  self.populateInfoWindow = (marker, infowindow) => {
     // Make sure the infowindow is not already opened on this marker.
     if (infowindow.marker !== marker) {
       // Clear the infowindow content to give the API time to load.
       infowindow.setContent('');
       infowindow.marker = marker;
       // Make sure the marker property is cleared if the infowindow is closed.
-      infowindow.addListener('closeclick', function() {
+      infowindow.addListener('closeclick', () => {
         infowindow.marker = null;
         marker.setAnimation(null);
         // Move the map back to its boundaries,
@@ -168,17 +242,17 @@ MVM = function() {
    */
 
   // Trigger the markers click listener.
-  self.listListener = function(location) {
+  self.listListener = location => {
     google.maps.event.trigger(location.marker, 'click');
   };
   // Trigger the markers mouseover listener.
-  self.hoverListener = function(location) {
+  self.hoverListener = location => {
     google.maps.event.trigger(location.marker, 'mouseover');
     // Bounce the marker at the location.
     location.marker.setAnimation(google.maps.Animation.BOUNCE);
   };
   // Trigger the markers mouseout listener.
-  self.hoverOut = function(location) {
+  self.hoverOut = location => {
     google.maps.event.trigger(location.marker, 'mouseout');
     // Cancel the animation.
     location.marker.setAnimation(null);
@@ -191,99 +265,12 @@ MVM = function() {
   self.zoomOut = zoomOut;
 };
 
-// Make an ajax request to Wikipedia.
-wikiAjax = function(url, infowindow) {
-  // Generate a url based on the markers wikiTitle.
-  MVM.wikiURL = 'https://en.wikipedia.org/w/api.php?action=parse&prop=info%7Ctext&page=' +
-                 url +
-                '&utf8=&format=json&formatversion=2&mobileformat=1';
-
-  $.ajax({
-    url: MVM.wikiURL,
-    dataType: 'jsonp',
-    type: 'GET',
-    headers: {'Api-User-Agent': 'allmynameswastaken@gmail.com'},
-    crossDomain: true,
-    error: function(jqXHR, textStatus, errorThrown) {
-      infowindow.setContent(
-        '<p>An error has occurred.</p>'
-      );
-      console.log('jqXHR:');
-      console.log(jqXHR);
-      console.log('textStatus:', textStatus);
-      console.log('errorThrown:', errorThrown);
-    },
-    success: function(data) {
-      // data is a jsonp object with a predictable array, starting with parse.
-      console.log(data.parse);
-      // Check if the response contains an error.
-      if (!data.error) {
-        // Declare the root of the object.
-        var rootQuery = data.parse;
-        // Declare the main content of the request
-        var rootContent = rootQuery.text;
-        // Define the title of the wikipedia page.
-        var infoTitle = rootQuery.title;
-
-        // Go through the wikipedia page and replace all image links.
-        var imgFormat = rootContent.replace(imageRegExp, 'https://');
-        // Go through the wikipedia page and replace all links.
-        var formattedContent = imgFormat.replace(linkRegExp, 'href="https://en.wikipedia.org');
-
-        // Take the formatted content
-        formattedContent = '<h1>This is ' +
-                            infoTitle +
-                            '</h1>' +
-                            formattedContent;
-        // Assign it to the content observable.
-        MVM.contentString = formattedContent;
-
-        // If nothing is present, warn the user inside the current infowindow.
-        if (MVM.contentString === '') {
-          infowindow.setContent(
-            '<h3>An error occurred, ' +
-            'try again & make sure the URL is correct.' +
-            ' The URL should match a "en.wikipedia.com" url.</h3>'
-          );
-        } else {
-          // Populate the infowindow with the formatted content.
-          infowindow.setContent(MVM.contentString);
-        }
-      } else {
-        // If an error is present, warn the user inside the current infowindow.
-        checkRequest(data, infowindow);
-      }
-    }
-  });
-};
-// Populates the infowindow with error data.
-// The error data is provided by Wikimedia.
-checkRequest = function(data, infowindow) {
-  'use strict';
-  infowindow.setContent(
-    '<h2>The request contains an error.</h2>' +
-    '<h3>' +
-    'Error info: ' +
-    data.error.info +
-    '<br>' +
-    'Error code: ' +
-    data.error.code +
-    '<br>' +
-    '</h3>' +
-    '<h5>' +
-    'Try again & make sure the URL is correct. ' +
-    'It should match a "en.wikipedia.com" url.</h5>' +
-    data.error.docref
-  );
-};
-
 /*
  *----- TOGGLES -----*
  */
 
 // Toggles the markers bounce animation
 function toggleBounce() {
-  'use strict';
   // Check if current marker is animating.
   if (this.getAnimation() !== null) {
     this.setAnimation(null);
@@ -294,7 +281,6 @@ function toggleBounce() {
 }
 // Cancel the current animation. :(
 function toggleOff() {
-  'use strict';
   return this.setAnimation(null);
 }
 
@@ -304,8 +290,7 @@ function toggleOff() {
 
 // Display all markers on the map.
 function showMarkers() {
-  'use strict';
-  for (var i = 0; i < markers.length; i++) {
+  for (let i = 0; i < markers.length; i++) {
     markers[i].visible = true;
     // Set marker on the map.
     markers[i].setMap(map);
@@ -315,19 +300,16 @@ function showMarkers() {
 }
 // Make map display current boundaries.
 function zoomOut() {
-  'use strict';
   map.fitBounds(bounds);
   largeInfowindow.close();
 }
 function showInfoWindow() {
-  'use strict';
   map.fitBounds(bounds);
   largeInfowindow.setMap(map);
 }
 // Hide all markers on the map.
 function hideMarkers() {
-  'use strict';
-  for (var i = 0; i < markers.length; i++) {
+  for (let i = 0; i < markers.length; i++) {
     // Set marker on the map.
     markers[i].setMap(null);
   }

@@ -2,21 +2,21 @@
 function initMap() {
   map = new google.maps.Map(document.getElementById('map'), {
     mapTypeId: 'satellite',
-    styles: styles,
+    styles,
     mapTypeControl: true
   });
   bounds = new google.maps.LatLngBounds();
   // Place markers on the map.
-  for (var i = 0; i < locations.length; i++) {
+  for (let i = 0; i < locations.length; i++) {
     // Get position and wikiTitle from the locations array.
     position = locations[i].location;
     title = locations[i].title;
     wikiTitle = locations[i].wikiTitle;
     // Create a marker per location
     marker = new google.maps.Marker({
-      position: position,
-      title: title,
-      wikiTitle: wikiTitle,
+      position,
+      title,
+      wikiTitle,
       animation: google.maps.Animation.DROP,
       visible: true
     });
@@ -35,7 +35,6 @@ function initMap() {
     marker.addListener('mouseout', toggleOff);
   }
   function openInfoWindow() {
-    'use strict';
     this.setAnimation(google.maps.Animation.DROP);
     MVM.populateInfoWindow(this, largeInfowindow);
   }
@@ -43,7 +42,7 @@ function initMap() {
   // Create the infowindow.
   largeInfowindow = new google.maps.InfoWindow({});
   // Fit bounds if there has been a resize.
-  google.maps.event.addDomListener(window, 'resize', function() {
+  google.maps.event.addDomListener(window, 'resize', () => {
     // `bounds` is a `LatLngBounds` object
     zoomOut();
   });
@@ -52,12 +51,12 @@ function initMap() {
   showMarkers();
 }
 // If the maps API doesn't load properly
-mapError = function() {
+const mapError = () => {
   // Error handling
   alert('Google Maps API did not load correctly. Please try to refresh and' +
     ' make sure the URL is correct.');
   console.log('Google Maps API did not load correctly.' +
-              ' Please try to refresh and make sure the URL is correct.');
+    ' Please try to refresh and make sure the URL is correct.');
 };
 
 MVM = new MVM();
