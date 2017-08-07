@@ -8,19 +8,19 @@ If you press the menu button in the bottom left corner, you are able to:
 - Search locations (with live filtering)
 - Show and hide markers
 - Zoom back to where you started
-
-# Requirements
-- A copy of this repository
-- [Node.js](https://nodejs.org), bring up a terminal and type `node --version` - _To make sure its installed & updated to the latest version_
-- [Gulp](http://gulpjs.com), bring up a terminal and type `gulp --version` - _To make sure its installed & updated to the latest version_
-
-
 # Installing
-The default instructions for Web Starter Kit are located in the WSK-documents folder.
+_Note: The default instructions for Web Starter Kit are located in the WSK-documents folder._
 
-**While you're in the root of the project:**
+## Requirements
+- A copy of this repository
+- [Node.js](https://nodejs.org), bring up a terminal and type `node --version`
+- [Gulp](http://gulpjs.com), bring up a terminal and type `gulp --version`
+
+_To make sure both are installed & updated to the latest version_
+  
+**While located in the project root folder:**
 - Open a terminal
-- You need to make sure Gulp and NodeJS both are updated using `gulp --version && node --version`
+- You need to make sure Gulp and NodeJS both are updated by following the [required steps](#Requirements).
 - Run `sudo npm install --global gulp && npm install`
 - That's it! You can now run `gulp serve` and your default browser will open a tab with the app running
   - Go to http://localhost:3000
