@@ -20,7 +20,7 @@ _To make sure both are installed & updated to the latest version_
   
 **While located in the project root folder:**
 - Open a terminal
-- You need to make sure Gulp and NodeJS both are updated by following the [required steps](#Requirements).
+- You need to make sure Gulp and NodeJS both are updated by following the [required steps](#requirements).
 - Run `sudo npm install --global gulp && npm install`
 - That's it! You can now run `gulp serve` and your default browser will open a tab with the app running
   - Go to http://localhost:3000
