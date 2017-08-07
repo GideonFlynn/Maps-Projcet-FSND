@@ -1,10 +1,10 @@
-# WikiMaps - A FSND project
-#### This one-page app displays Wikipedia pages about world wonders, while displaying where they're located on Google Maps
+# WikiMaps - An FSND project
+#### This one-page app displays Wikipedia pages about world wonders while displaying their location on Google Maps
 This is a KnockoutJS web application, it uses ajax to utilize two distinct APIs.
 
-All information is displayed in 'infoboxes' that shows on the map when you press a marker or a list item.
+All information is displayed in 'info boxes' that shows on the map when you press a marker or a list item.
 
-If you press the menu button in bottom left corner, you are able to:
+If you press the menu button in the bottom left corner, you are able to:
 - Search locations (with live filtering)
 - Show and hide markers
 - Zoom back to where you started
@@ -30,14 +30,14 @@ The default instructions for Web Starter Kit are located in the WSK-documents fo
 Whenever you make a change and save it, the browser will automatically update.
 You can also access the app on other devices while running `gulp:serve` & `gulp serve:dist`!
 - If you are unable to watch the webpage on other devices, make sure you are on the same network
-- If its still not working:
+- If it's still not working:
   - Install a tool like dev-ip with `npm install -g dev-ip`, then run `dev-ip`
   - Copy one of the provided IP addresses and go to gulpfile.babel.js and locate the `serve` and `serve:dist` tasks
   - Find the host value( host: 'IP-address' ), then change 'IP-address' to the one you've just copied
   
   You can try gulp:serve again and just like that, the app should show on other devices.
 
-If you are curious about how everything works, go read the documents that comes with WSK, in the WSK-documents folder. :)
+If you are curious about how everything works, go read the documents that come with WSK, in the WSK-documents folder. :)
 
 # API
 The API's used are:
